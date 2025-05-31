@@ -2,9 +2,23 @@ import './Quiz.css';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Quiz = ({ questions, setQuestions }) => {
+const Quiz = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+
+  const storedQuestions = location.state?.questions;  
+
+  const localQuestions = JSON.parse(localStorage.getItem('questions') || '[]');
+
+  const [questions, setQuestions] = useState(storedQuestions || localQuestions);
+
+  useEffect(() => {
+    if (questions.length > 0) {
+      localStorage.setItem('questions', JSON.stringify(questions));
+    }
+  }, [questions]);
+
   const userName = location.state?.userName || 'Guest';
   const category = location.state?.category || questions[0]?.category || 'Unknown';
 
@@ -42,6 +56,7 @@ const Quiz = ({ questions, setQuestions }) => {
     if (currentQues + 1 === questions.length) {
       localStorage.removeItem('score');
       localStorage.removeItem('currentQues');
+      localStorage.removeItem('questions');
       navigate('/result', { state: { score } });
     } else {
       setCurrentQues(prev => prev + 1);
@@ -51,6 +66,7 @@ const Quiz = ({ questions, setQuestions }) => {
   const handleQuit = () => {
     localStorage.removeItem('score');
     localStorage.removeItem('currentQues');
+    localStorage.removeItem('questions');
     setQuestions([]);
     navigate('/');
   };

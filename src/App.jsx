@@ -32,13 +32,19 @@ function App() {
       element: (
         <div>
           <Header />
-          <Home fetchQuestion={fetchQuestion} setUserName={setUserName} setCategoryName={setCategoryName} />
+          <Home fetchQuestion={fetchQuestion}
+            setUserName={setUserName}
+            setCategoryName={setCategoryName}
+          />
         </div>
       ),
     },
     {
       path: '/quiz',
-      element: <Quiz questions={questions} score={score} setScore={setScore} setQuestions={setQuestions} />,
+      element: <Quiz questions={questions}
+        score={score}
+        setScore={setScore}
+        setQuestions={setQuestions} />,
     },
     {
       path: '/result',

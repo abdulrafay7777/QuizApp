@@ -43,15 +43,25 @@ const Home = ({ fetchQuestion, setUserName, setCategoryName }) => {
       return;
     }
     setLoading(true);
+
     const selectedCategory = Categories.find((c) => c.value === Number(category));
     const categoryName = selectedCategory ? selectedCategory.category : "Unknown";
+
     try {
       const questions = await fetchQuestion(category, Difficulty);
       setUserName(name);
       setCategoryName(categoryName);
+
+      console.log(questions)
       navigate('/quiz', {
-        state: { userName: name, category: categoryName, questions, score: 0 },
+        state: {
+          userName: name,
+          category: categoryName,
+          questions,
+          score: 0
+        },
       });
+
     } catch (error) {
       console.error("Failed to fetch questions:", error);
     } finally {
